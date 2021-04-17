@@ -60,7 +60,6 @@ exports.book_detail = function(req,res){
       return next(err);
     }
     // Successful, so render
-    console.log(results.book);
     res.render('book_detail',{title: results.book.title, book: results.book, book_instances: results.book_instance});
   });
 };
