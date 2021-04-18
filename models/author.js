@@ -12,42 +12,32 @@ var AuthorSchema = new Schema(
   }
 );
 
-// Virtual for athors date of birth
+// Virtual for authors lifespan
 AuthorSchema
-  .virtual('date_of_birth_formatted')
-  .get(function() {
-    return this.date_of_birth ?
-      DateTime
-        .fromJSDate(this.date_of_birth)
-        .setLocale('nl')
-        .toLocaleString(DateTime.DATE_MED)
-      : 'no date';
- });
-
-// Virtual for athors date of death
-AuthorSchema
-  .virtual('date_of_death_formatted')
-  .get(function() {
-    return this.date_of_death ?
-      DateTime
-        .fromJSDate(this.date_of_death)
-        .setLocale('nl')
-        .toLocaleString(DateTime.DATE_MED)
-      : 'no date';
- });
+  .virtual('lifespan')
+  .get(function(){
+    var birth =
+      (this.date_of_birth ?
+        DateTime
+          .fromJSDate(this.date_of_birth)
+          .setLocale('nl')
+          .toLocaleString(DateTime.DATE_MED)
+      : 'no date');
+    var death =
+      (this.date_of_death ?
+        DateTime
+          .fromJSDate(this.date_of_death)
+          .setLocale('nl')
+          .toLocaleString(DateTime.DATE_MED)
+      : 'no date');
+    return birth +' - '+ death;
+  });
 
 // Virtual for author's full name
 AuthorSchema
 .virtual('name')
 .get(function () {
   return this.family_name + ', ' + this.first_name;
-});
-
-// Virtual for author's lifespan
-AuthorSchema
-.virtual('lifespan')
-.get(function () {
-  return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
 });
 
 // Virtual for author's URL

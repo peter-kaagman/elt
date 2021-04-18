@@ -47,4 +47,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Pretty HTML in development
+if (app.get('env')==='development'){
+  app.locals.pretty = true;
+}
+
 module.exports = app;
